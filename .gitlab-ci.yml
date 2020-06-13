@@ -18,7 +18,6 @@ before_script:
   - mkdir -p $SPLUNK_DEFAULT_DIR
   - cp $GITLAB_DEFAULT_FILE $SPLUNK_DEFAULT_FILE
   - "/sbin/entrypoint.sh start-and-exit"
-  - sudo -u $SPLUNK_USER ls /opt/splunk/etc/apps/custom_test_app
 
 test:
   stage: test
