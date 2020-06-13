@@ -18,7 +18,8 @@ tests:
           maxDist: 9999
 
   # test custom app that does't export its configs
-  - configs:
+  - app: custom_test_app
+    configs:
       custom_test_file:
         custom_test_stanza:
           custom_test_key: custom_test_value
