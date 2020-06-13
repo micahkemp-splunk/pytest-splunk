@@ -16,9 +16,13 @@ class SplunkTester(object):
         test_service = self._context_service(app=app, user=user, **self._connect_args)
 
         for test_file_name, test_file_config in files.items():
-            conf_file = test_service.confs[test_file_name]
-
             success = True
+
+            try:
+                conf_file = test_service.confs[test_file_name]
+            except KeyError:
+                printf(f"Expected config file is absent: {test_file_name}")
+                success = False
 
             for test_stanza_name, test_stanza_config in test_file_config.items():
                 stanza = conf_file[test_stanza_name]
@@ -29,7 +33,7 @@ class SplunkTester(object):
                     try:
                         # all conf values are returned as strings, so compare appropriately
                         assert key_value == str(test_key_value)
-                    except:
+                    except AssertionError:
                         print(f"Config file: {test_file_name}")
                         print(f"  Stanza: {test_stanza_name}")
                         print(f"    Key: {test_key_name}")
