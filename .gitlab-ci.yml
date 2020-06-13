@@ -7,13 +7,15 @@ variables:
   SPLUNK_PASSWORD: test_cicd_splunk_password
   SPLUNK_HOME: /opt/splunk
   SPLUNK_USER: splunk
-  SPLUNK_DEFAULT_FILE: /tmp/defaults/default.yml
+  SPLUNK_DEFAULT_DIR: /tmp/defaults
+  SPLUNK_DEFAULT_FILE: $SPLUNK_DEFAULT_DIR/default.yml
   GITLAB_DEFAULT_FILE: .gitlab-ci-files/default.yml
 
 before_script:
   - sudo apt-get update
   - sudo apt-get install -y --no-install-recommends python3.7 python3-pip python3-setuptools
   - sudo pip3 install -r requirements.txt
+  - sudo -u SPLUNK_USER mkdir -p $GITLAB_DEFAULT_DIR
   - sudo -u $SPLUNK_USER cp $GITLAB_DEFAULT_FILE $SPLUNK_DEFAULT_FILE
   - "/sbin/entrypoint.sh start-and-exit"
   - sudo -u $SPLUNK_USER ls /opt/splunk/etc/apps/custom_test_app
