@@ -1,5 +1,9 @@
 image: ubuntu:20.04
 
+services:
+  - name: splunk/splunk:8.4.0.1
+    alias: splunk
+
 before_script:
   - apt-get update
   - apt-get install -y --no-install-recommends python3.7 python3-pip
