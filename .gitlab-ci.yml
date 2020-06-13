@@ -16,4 +16,5 @@ before_script:
 test:
   stage: test
   script:
+    - pip3 install -r test-requirements.txt
     - python3 -m pytest
