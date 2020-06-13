@@ -37,7 +37,15 @@ class SplunkTester(object):
                     continue
 
                 for test_key_name, test_key_value in test_stanza_config.items():
-                    key_value = stanza[test_key_name]
+                    try:
+                        key_value = stanza[test_key_name]
+                    except KeyError:
+                        print(f"Config file: {test_file_name}")
+                        print(f"  Stanza: {test_stanza_name}")
+                        print(f"    Key: {test_key_name}")
+                        print(f"      Expected: present, Got: absent")
+                        success = False
+                        continue
 
                     try:
                         # all conf values are returned as strings, so compare appropriately
