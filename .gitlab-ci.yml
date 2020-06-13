@@ -14,9 +14,9 @@ before_script:
   - sudo apt-get update
   - sudo apt-get install -y --no-install-recommends python3.7 python3-pip python3-setuptools
   - sudo pip3 install -r requirements.txt
-  - cp $GITLAB_DEFAULT_FILE $SPLUNK_DEFAULT_FILE
+  - sudo -u $SPLUNK_USER cp $GITLAB_DEFAULT_FILE $SPLUNK_DEFAULT_FILE
   - "/sbin/entrypoint.sh start-and-exit"
-  - ls /opt/splunk/etc/apps/custom_test_app
+  - sudo -u $SPLUNK_USER ls /opt/splunk/etc/apps/custom_test_app
 
 test:
   stage: test
