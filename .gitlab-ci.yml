@@ -1,7 +1,6 @@
 image:
   name: splunk/splunk:8.0.4.1-debian
-  # override entrypoint (but call the overridden value in before_scritp)
-  entrypoint: [ "/bin/bash", "-c" ]
+  entrypoint: ""
 
 variables:
   SPLUNK_START_ARGS: --accept-license
@@ -13,7 +12,7 @@ before_script:
   - sudo apt-get update
   - sudo apt-get install -y --no-install-recommends python3.7 python3-pip
   - sudo pip3 install -r requirements.txt
-  - "/sbin/entrypoint.sh start-and-exit"
+  #- "/sbin/entrypoint.sh start-and-exit"
 
 test:
   stage: test
