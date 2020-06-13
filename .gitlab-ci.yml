@@ -1,5 +1,9 @@
 image: ubuntu:20.04
 
+variables:
+  SPLUNK_START_ARGS: --accept-license
+  SPLUNK_PASSWORD: test_cicd_splunk_password
+
 services:
   - name: splunk/splunk:8.0.4.1
     alias: splunk
