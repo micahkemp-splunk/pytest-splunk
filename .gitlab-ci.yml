@@ -1,0 +1,10 @@
+image: ubuntu:20.04
+
+before_script:
+  - apk add python3 py3-pip
+  - pip3 install -r requirements.txt
+
+test:
+  stage: test
+  script:
+    - python3 --version
