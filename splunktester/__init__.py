@@ -21,12 +21,20 @@ class SplunkTester(object):
             try:
                 conf_file = test_service.confs[test_file_name]
             except KeyError:
-                printf(f"Expected config file is absent: {test_file_name}")
+                print(f"Config file: {test_file_name}")
+                print(f"  Expected: present, Got: absent")
                 success = False
                 continue
 
             for test_stanza_name, test_stanza_config in test_file_config.items():
-                stanza = conf_file[test_stanza_name]
+                try:
+                    stanza = conf_file[test_stanza_name]
+                except KeyError:
+                    print(f"Config file: {test_file_name}")
+                    print(f"  Stanza: {test_stanza_name}")
+                    print(f"    Expected: present, Got: absent")
+                    success = False
+                    continue
 
                 for test_key_name, test_key_value in test_stanza_config.items():
                     key_value = stanza[test_key_name]
