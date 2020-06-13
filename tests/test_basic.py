@@ -9,9 +9,14 @@ splunk_hostname = test_config["splunk_hostname"]
 splunk_username = test_config["splunk_username"]
 splunk_password = test_config["splunk_password"]
 
+
 def test_something():
-    splunktester.SplunkTester(
+    tester = splunktester.SplunkTester(
         host=splunk_hostname,
         username=splunk_username,
         password=splunk_password,
     )
+
+    for test in test_config["tests"]:
+        if "configs" in test:
+            tester.test_configs(test["configs"])

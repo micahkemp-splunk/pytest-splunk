@@ -1,5 +1,6 @@
 # "splunk" is the alias we gave the service in .gitlab-ci.yml
-splunk_hostname: "splunk"
+#splunk_hostname: "splunk"
+splunk_hostname: "localhost"
 
 # it seems "admin" is the hardcoded value for the default account in the splunk/splunk docker image
 splunk_username: "admin"
@@ -7,8 +8,12 @@ splunk_username: "admin"
 splunk_password: "test_cicd_splunk_password"
 
 tests:
-  app: "search"
-  user: "-"
-  configs:
-    fakestanza:
-      fakekey: fakevalue
+  - configs:
+      inputs:
+        udp:
+          connection_host: ip
+      props:
+        breakable_text:
+          LEARN_MODEL: 0
+        too_small:
+          maxDist: 9999
