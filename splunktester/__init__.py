@@ -8,7 +8,7 @@ class SplunkTester(object):
 
     def _context_service(self, app=None, user=None, **connect_args):
         if app or user:
-            return client.connect(app=app, user=user, **connect_args)
+            return client.connect(app=app, owner=user, **connect_args)
 
         return self._service
 
