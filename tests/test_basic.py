@@ -19,4 +19,6 @@ def test_something():
 
     for test in test_config["tests"]:
         if "configs" in test:
-            tester.test_configs(test["configs"])
+            user = test.get("user", None)
+            app = test.get("app", None)
+            tester.test_configs(test["configs"], user=user, app=app)
