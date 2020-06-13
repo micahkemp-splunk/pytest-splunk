@@ -5,4 +5,10 @@ splunk:
         directory: /opt/splunk/etc/apps/custom_test_app/default
         content:
           custom_test_stanza:
-            custom_test_key: custom_test_value
+            custom_test_key: custom_app_test_value
+    - key: custom_test_file
+      value:
+        directory: /opt/splunk/etc/users/admin/custom_test_app/default
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_teest_value

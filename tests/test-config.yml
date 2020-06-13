@@ -22,4 +22,12 @@ tests:
     configs:
       custom_test_file:
         custom_test_stanza:
-          custom_test_key: custom_test_value
+          custom_test_key: custom_app_test_value
+
+  # test custom user app that doesn't export its configs
+  - app: custom_test_app
+    user: admin
+    configs:
+      custom_test_file:
+        custom_test_stanza:
+          custom_test_key: custom_user_app_test_value
