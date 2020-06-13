@@ -23,6 +23,7 @@ class SplunkTester(object):
             except KeyError:
                 printf(f"Expected config file is absent: {test_file_name}")
                 success = False
+                continue
 
             for test_stanza_name, test_stanza_config in test_file_config.items():
                 stanza = conf_file[test_stanza_name]
