@@ -21,6 +21,8 @@ class SplunkTester(object):
             try:
                 conf_file = test_service.confs[test_file_name]
             except KeyError:
+                print(f"User: {user}")
+                print(f"App: {user}")
                 print(f"Config file: {test_file_name}")
                 print(f"  Expected: present, Got: absent")
                 success = False
@@ -30,6 +32,8 @@ class SplunkTester(object):
                 try:
                     stanza = conf_file[test_stanza_name]
                 except KeyError:
+                    print(f"User: {user}")
+                    print(f"App: {user}")
                     print(f"Config file: {test_file_name}")
                     print(f"  Stanza: {test_stanza_name}")
                     print(f"    Expected: present, Got: absent")
@@ -40,6 +44,8 @@ class SplunkTester(object):
                     try:
                         key_value = stanza[test_key_name]
                     except KeyError:
+                        print(f"User: {user}")
+                        print(f"App: {user}")
                         print(f"Config file: {test_file_name}")
                         print(f"  Stanza: {test_stanza_name}")
                         print(f"    Key: {test_key_name}")
@@ -51,6 +57,8 @@ class SplunkTester(object):
                         # all conf values are returned as strings, so compare appropriately
                         assert key_value == str(test_key_value)
                     except AssertionError:
+                        print(f"User: {user}")
+                        print(f"App: {user}")
                         print(f"Config file: {test_file_name}")
                         print(f"  Stanza: {test_stanza_name}")
                         print(f"    Key: {test_key_name}")
