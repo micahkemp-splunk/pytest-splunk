@@ -1,0 +1,8 @@
+splunk:
+  conf:
+    - key: custom_test_file
+      value:
+        directory: /opt/splunk/etc/apps/custom_test_app/default
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_test_value
