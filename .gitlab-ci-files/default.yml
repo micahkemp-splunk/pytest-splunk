@@ -1,11 +1,22 @@
 splunk:
   conf:
+    # custom app
     - key: custom_test_file
       value:
         directory: /opt/splunk/etc/apps/custom_test_app/default
         content:
           custom_test_stanza:
             custom_test_key: custom_app_test_value
+
+    # try to override the custom app with the same name
+    - key: custom_test_file
+      value:
+        directory: /opt/splunk/etc/users/admin/custom_test_app/local
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_test_value
+
+    # app only defined for the admin user
     - key: custom_test_file
       value:
         directory: /opt/splunk/etc/users/admin/custom_test_user_app/local
