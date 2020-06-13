@@ -38,4 +38,4 @@ tests:
     configs:
       custom_test_file:
         custom_test_stanza:
-          custom_test_key: custom_user_app_test_value
+          custom_test_key: custom_user_app_test_value2
