@@ -1,6 +1,6 @@
 image:
   name: splunk/splunk:8.0.4.1-debian
-  entrypoint: []
+  entrypoint: ["/bin/bash"]
 
 variables:
   SPLUNK_START_ARGS: --accept-license
