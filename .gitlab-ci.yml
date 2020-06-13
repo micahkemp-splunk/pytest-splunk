@@ -16,4 +16,4 @@ before_script:
 test:
   stage: test
   script:
-    - python3 --version
+    - python3 -m pytest
