@@ -20,7 +20,6 @@ class SplunkTester(object):
         test_service = self._context_service(app=app, user=user, **self._connect_args)
 
         assert ConfTester(files=files, service=test_service, indent=self._indent+2).run()
-        assert False
 
 
 class ConfTester(object):
