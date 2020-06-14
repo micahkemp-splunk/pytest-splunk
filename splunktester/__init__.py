@@ -24,9 +24,16 @@ class SplunkTester(object):
             print(f"  Config file: {test_file_name}")
 
             try:
+                test_file_config_state = test_file_config.get("state", "present")
                 conf_file = test_service.confs[test_file_name]
+                assert test_file_config_state == "present"
             except KeyError:
-                print(f"!!!!Expected: present, Got: absent")
+                if not test_file_config_state == "absent":
+                    print(f"!!!!Expected: present, Got: absent")
+                    success = False
+                continue
+            except AssertionError:
+                print(f"!!!!Expected: absent, Got: present")
                 success = False
                 continue
 
