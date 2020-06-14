@@ -18,7 +18,7 @@ tests:
         stanzas:
           breakable_text:
             keys:
-              LEARN_MODEL: 1
+              LEARN_MODEL: 0
           too_small:
             keys:
               maxDist: 9999
