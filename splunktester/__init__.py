@@ -41,7 +41,8 @@ class SplunkTester(object):
                     success = False
                     continue
 
-                for test_key_name, test_key_value in test_stanza_config.items():
+                test_file_keys = test_stanza_config.get("keys", {})
+                for test_key_name, test_key_value in test_file_keys.items():
                     print(f"      Key: {test_key_name}")
 
                     try:

@@ -12,13 +12,16 @@ tests:
       inputs:
         stanzas:
           udp:
-            connection_host: ip
+            keys:
+              connection_host: ip
       props:
         stanzas:
           breakable_text:
-            LEARN_MODEL: 0
+            keys:
+              LEARN_MODEL: 0
           too_small:
-            maxDist: 9999
+            keys:
+              maxDist: 9999
 
   # test custom app that does't export its configs
   - app: custom_test_app
@@ -26,7 +29,8 @@ tests:
       custom_test_file:
         stanzas:
           custom_test_stanza:
-            custom_test_key: custom_app_test_value
+            keys:
+              custom_test_key: custom_app_test_value
 
   # test custom user app that overrides the above app
   - app: custom_test_app
@@ -35,7 +39,8 @@ tests:
       custom_test_file:
         stanzas:
           custom_test_stanza:
-            custom_test_key: custom_user_app_test_value
+            keys:
+              custom_test_key: custom_user_app_test_value
 
   # test custom user app that doesn't export its configs
   - app: custom_test_user_app
@@ -44,4 +49,5 @@ tests:
       custom_test_file:
         stanzas:
           custom_test_stanza:
-            custom_test_key: custom_user_app_test_value
+            keys:
+              custom_test_key: custom_user_app_test_value
