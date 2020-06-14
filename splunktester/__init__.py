@@ -13,19 +13,28 @@ class SplunkTester(object):
         return self._service
 
     def test_configs(self, files, app=None, user=None):
-        test_service = self._context_service(app=app, user=user, **self._connect_args)
-
         print(f"User: {user}")
         print(f"App: {app}")
 
+        test_service = self._context_service(app=app, user=user, **self._connect_args)
+
+        ConfTester(files=files, service=test_service).run()
+
+
+class ConfTester(object):
+    def __init__(self, files, service):
+        self._files = files
+        self._service = service
+
+    def run(self):
         success = True
 
-        for test_file_name, test_file_config in files.items():
+        for test_file_name, test_file_config in self._files.items():
             print(f"  Config file: {test_file_name}")
 
             try:
                 test_file_config_state = test_file_config.get("state", "present")
-                conf_file = test_service.confs[test_file_name]
+                conf_file = self._service.confs[test_file_name]
                 assert test_file_config_state == "present"
             except KeyError:
                 if not test_file_config_state == "absent":
