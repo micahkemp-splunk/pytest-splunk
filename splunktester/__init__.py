@@ -30,7 +30,8 @@ class SplunkTester(object):
                 success = False
                 continue
 
-            for test_stanza_name, test_stanza_config in test_file_config.items():
+            test_file_stanzas = test_file_config.get("stanzas", {})
+            for test_stanza_name, test_stanza_config in test_file_stanzas.items():
                 print(f"    Stanza: {test_stanza_name}")
 
                 try:
@@ -57,4 +58,5 @@ class SplunkTester(object):
                         print(f"!!!!!!!!Expected: {test_key_value}, Got: {key_value}")
                         success = False
 
+        # did we pass all of our tests?
         assert success

@@ -7,35 +7,41 @@ splunk_username: "admin"
 splunk_password: "test_cicd_splunk_password"
 
 tests:
+  # these are configs that ship with splunk out of the box
   - configs:
       inputs:
-        udp:
-          connection_host: ip
+        stanzas:
+          udp:
+            connection_host: ip
       props:
-        breakable_text:
-          LEARN_MODEL: 0
-        too_small:
-          maxDist: 9999
+        stanzas:
+          breakable_text:
+            LEARN_MODEL: 0
+          too_small:
+            maxDist: 9999
 
   # test custom app that does't export its configs
   - app: custom_test_app
     configs:
       custom_test_file:
-        custom_test_stanza:
-          custom_test_key: custom_app_test_value
+        stanzas:
+          custom_test_stanza:
+            custom_test_key: custom_app_test_value
 
   # test custom user app that overrides the above app
   - app: custom_test_app
     user: admin
     configs:
       custom_test_file:
-        custom_test_stanza:
-          custom_test_key: custom_user_app_test_value
+        stanzas:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_test_value
 
   # test custom user app that doesn't export its configs
   - app: custom_test_user_app
     user: admin
     configs:
       custom_test_file:
-        custom_test_stanza:
-          custom_test_key: custom_user_app_test_value
+        stanzas:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_test_value
