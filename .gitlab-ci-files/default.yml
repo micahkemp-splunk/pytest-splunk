@@ -16,6 +16,12 @@ splunk:
           custom_test_stanza:
             custom_test_key: custom_user_app_test_value
 
+    # the admin-user only app needs to exist globally, even if just empty, for it to be considered an app
+    - key: custom_test_file
+      value:
+        directory: /opt/splunk/etc/apps/custom_test_user_app/default
+        content: {}
+
     # app only defined for the admin user
     - key: custom_test_file
       value:
