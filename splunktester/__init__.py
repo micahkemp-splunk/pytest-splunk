@@ -1,4 +1,5 @@
 import splunklib.client as client
+from colorama import Fore, Style
 
 
 class SplunkTester(object):
@@ -125,4 +126,6 @@ class TestLogger(object):
 
     @classmethod
     def error(cls, msg, indent=0):
+        print(Fore.RED, end='')
         cls.log(msg, indent=indent, indentchar='!')
+        print(Style.RESET_ALL, end='')
