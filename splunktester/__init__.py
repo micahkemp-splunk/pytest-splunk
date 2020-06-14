@@ -2,7 +2,8 @@ import splunklib.client as client
 
 
 class SplunkTester(object):
-    def __init__(self, **connect_args):
+    def __init__(self, indent=0, **connect_args):
+        self._indent = indent
         self._connect_args = connect_args
         self._service = client.connect(**connect_args)
 
@@ -13,98 +14,116 @@ class SplunkTester(object):
         return self._service
 
     def test_configs(self, files, app=None, user=None):
-        print(f"User: {user}")
-        print(f"App: {app}")
+        TestLogger.info(f"User: {user}", indent=self._indent)
+        TestLogger.info(f"App: {app}", indent=self._indent)
 
         test_service = self._context_service(app=app, user=user, **self._connect_args)
 
-        assert ConfTester(files=files, service=test_service).run()
+        assert ConfTester(files=files, service=test_service, indent=self._indent+2).run()
+        assert False
 
 
 class ConfTester(object):
-    def __init__(self, files, service):
+    def __init__(self, files, service, indent=0):
         self._files = files
         self._service = service
+        self._indent = indent
 
     def run(self):
         success = True
 
         for test_file_name, test_file_config in self._files.items():
-            print(f"  Config file: {test_file_name}")
+            TestLogger.info(f"Config file: {test_file_name}", indent=self._indent)
 
             try:
                 test_file_config_state = test_file_config.get("state", "present")
                 conf_file = self._service.confs[test_file_name]
                 assert test_file_config_state == "present"
-                print(f"    Expected: present, Got: present")
+                TestLogger.info(f"Expected: present, Got: present", indent=self._indent)
             except KeyError:
                 if not test_file_config_state == "absent":
-                    print(f"!!!!Expected: present, Got: absent")
+                    TestLogger.error(f"Expected: present, Got: absent", indent=self._indent)
                     success = False
                 continue
             except AssertionError:
-                print(f"!!!!Expected: absent, Got: present")
+                TestLogger.error(f"Expected: absent, Got: present", indent=self._indent)
                 success = False
                 continue
 
             test_file_stanzas = test_file_config.get("stanzas", {})
-            if not StanzaTester(stanzas=test_file_stanzas, conf_file=conf_file).run():
+            if not StanzaTester(stanzas=test_file_stanzas, conf_file=conf_file, indent=self._indent+2).run():
                 success = False
 
         return success
 
 
 class StanzaTester(object):
-    def __init__(self, stanzas, conf_file):
+    def __init__(self, stanzas, conf_file, indent):
         self._stanzas = stanzas
         self._conf_file = conf_file
+        self._indent = indent
 
     def run(self):
         success = True
 
         for test_stanza_name, test_stanza_config in self._stanzas.items():
-            print(f"    Stanza: {test_stanza_name}")
+            TestLogger.info(f"Stanza: {test_stanza_name}", indent=self._indent)
 
             try:
                 stanza = self._conf_file[test_stanza_name]
-                print(f"      Expected: present, Got: present")
+                TestLogger.info(f"Expected: present, Got: present", indent=self._indent+2)
             except KeyError:
-                print(f"!!!!!!Expected: present, Got: absent")
+                TestLogger.error(f"Expected: present, Got: absent", indent=self._indent+2)
                 success = False
                 continue
 
             test_file_keys = test_stanza_config.get("keys", {})
-            if not KeyTester(keys=test_file_keys, stanza_keys=stanza).run():
+            if not KeyTester(keys=test_file_keys, stanza_keys=stanza, indent=self._indent+2).run():
                 success = False
 
         return success
 
 
 class KeyTester(object):
-    def __init__(self, keys, stanza_keys):
+    def __init__(self, keys, stanza_keys, indent):
         self._keys = keys
         self._stanza_keys = stanza_keys
+        self._indent = indent
 
     def run(self):
         success = True
 
         for test_key_name, test_key_value in self._keys.items():
-            print(f"      Key: {test_key_name}")
+            TestLogger.info(f"Key: {test_key_name}", indent=self._indent)
 
             try:
                 key_value = self._stanza_keys[test_key_name]
-                print(f"        Expected: present, Got: present")
+                TestLogger.info(f"Expected: present, Got: present", indent=self._indent+2)
             except KeyError:
-                print(f"!!!!!!!!Expected: present, Got: absent")
+                TestLogger.error(f"Expected: present, Got: absent", indent=self._indent+2)
                 success = False
                 continue
 
             try:
                 # all conf values are returned as strings, so compare appropriately
                 assert key_value == str(test_key_value)
-                print(f"        Expected: {test_key_value}, Got: {key_value}")
+                TestLogger.info(f"Expected: {test_key_value}, Got: {key_value}", indent=self._indent+2)
             except AssertionError:
-                print(f"!!!!!!!!Expected: {test_key_value}, Got: {key_value}")
+                TestLogger.error(f"Expected: {test_key_value}, Got: {key_value}", indent=self._indent+2)
                 success = False
 
         return success
+
+
+class TestLogger(object):
+    @classmethod
+    def log(cls, msg, indent=0, indentchar=' '):
+        print(f"{indentchar * indent}{msg}")
+
+    @classmethod
+    def info(cls, msg, indent=0):
+        cls.log(msg, indent=indent, indentchar=' ')
+
+    @classmethod
+    def error(cls, msg, indent=0):
+        cls.log(msg, indent=indent, indentchar='!')
