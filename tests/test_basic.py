@@ -21,4 +21,4 @@ def test_something():
         if "configs" in test:
             user = test.get("user", None)
             app = test.get("app", None)
-            tester.test_configs(test["configs"], user=user, app=app)
+            assert tester.test_configs(test["configs"], user=user, app=app)
