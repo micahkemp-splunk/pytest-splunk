@@ -18,10 +18,10 @@ class SplunkTester(object):
         print(f"User: {user}")
         print(f"App: {app}")
 
+        success = True
+
         for test_file_name, test_file_config in files.items():
             print(f"  Config file: {test_file_name}")
-
-            success = True
 
             try:
                 conf_file = test_service.confs[test_file_name]
@@ -57,4 +57,4 @@ class SplunkTester(object):
                         print(f"!!!!!!!!Expected: {test_key_value}, Got: {key_value}")
                         success = False
 
-            assert success
+        assert success
