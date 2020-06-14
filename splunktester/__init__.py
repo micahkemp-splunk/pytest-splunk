@@ -47,33 +47,45 @@ class ConfTester(object):
                 continue
 
             test_file_stanzas = test_file_config.get("stanzas", {})
-            for test_stanza_name, test_stanza_config in test_file_stanzas.items():
-                print(f"    Stanza: {test_stanza_name}")
+
+        assert success
+
+
+class StanzaTester(object):
+    def __init__(self, stanzas, conf_file):
+        self._stanzas = stanzas
+        self._conf_file = conf_file
+
+    def run(self):
+        success = True
+
+        for test_stanza_name, test_stanza_config in self._stanzas.items():
+            print(f"    Stanza: {test_stanza_name}")
+
+            try:
+                stanza = conf_file[test_stanza_name]
+            except KeyError:
+                print(f"!!!!!!Expected: present, Got: absent")
+                success = False
+                continue
+
+            test_file_keys = test_stanza_config.get("keys", {})
+            for test_key_name, test_key_value in test_file_keys.items():
+                print(f"      Key: {test_key_name}")
 
                 try:
-                    stanza = conf_file[test_stanza_name]
+                    key_value = stanza[test_key_name]
                 except KeyError:
-                    print(f"!!!!!!Expected: present, Got: absent")
+                    print(f"!!!!!!!!Expected: present, Got: absent")
                     success = False
                     continue
 
-                test_file_keys = test_stanza_config.get("keys", {})
-                for test_key_name, test_key_value in test_file_keys.items():
-                    print(f"      Key: {test_key_name}")
-
-                    try:
-                        key_value = stanza[test_key_name]
-                    except KeyError:
-                        print(f"!!!!!!!!Expected: present, Got: absent")
-                        success = False
-                        continue
-
-                    try:
-                        # all conf values are returned as strings, so compare appropriately
-                        assert key_value == str(test_key_value)
-                    except AssertionError:
-                        print(f"!!!!!!!!Expected: {test_key_value}, Got: {key_value}")
-                        success = False
+                try:
+                    # all conf values are returned as strings, so compare appropriately
+                    assert key_value == str(test_key_value)
+                except AssertionError:
+                    print(f"!!!!!!!!Expected: {test_key_value}, Got: {key_value}")
+                    success = False
 
         # did we pass all of our tests?
         assert success
