@@ -51,3 +51,8 @@ tests:
           custom_test_stanza:
             keys:
               custom_test_key: custom_user_app_test_value
+
+  # test that a dummy conf file doesn't exist
+  - configs:
+      dummyconf:
+        state: absent
