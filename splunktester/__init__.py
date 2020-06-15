@@ -133,7 +133,7 @@ class CredsTester(object):
         success = True
 
         # test_cred_title needs to be in the form :realm:username:
-        for test_cred_title, test_cred_value in creds.items():
+        for test_cred_title, test_cred_value in self._creds.items():
             TestLogger.info(f"Cred: {test_cred_title}", indent=self._indent)
 
             try:
