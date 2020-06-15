@@ -73,7 +73,7 @@ class StanzaTester(object):
                 stanza = self._conf_file[test_stanza_name]
                 TestLogger.info(f"Expected: present, Got: present", indent=self._indent+2)
             except KeyError as e:
-                TestLogger.error(f"Expected: present, Got: absent\n{e}", indent=self._indent+2)
+                TestLogger.error(f"Expected: present, Got: absent", indent=self._indent+2)
                 success = False
                 continue
 
