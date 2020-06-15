@@ -137,7 +137,7 @@ class CredsTester(object):
             TestLogger.info(f"Cred: {test_cred_title}", indent=self._indent)
 
             try:
-                found_cred_value = self._service.storage_passwords[test_cred_title]
+                found_cred_value = self._service.storage_passwords[test_cred_title].content.clear_password
                 TestLogger.info(f"Expected: present, Got: present", indent=self._indent+2)
             except KeyError:
                 TestLogger.error(f"Expected: present, Got: absent", indent=self._indent+2)
