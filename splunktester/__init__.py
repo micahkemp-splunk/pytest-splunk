@@ -22,6 +22,14 @@ class SplunkTester(object):
 
         return ConfTester(files=files, service=test_service, indent=self._indent+2).run()
 
+    def test_creds(self, creds, app=None, user=None):
+        TestLogger.info(f"User: {user}", indent=self._indent)
+        TestLogger.info(f"App: {app}", indent=self._indent)
+
+        test_service = self._context_service(app=app, user=user, **self._connect_args)
+
+        return CredsTester(creds=creds, service=test_service, indent=self._indent+2).run()
+
 
 class ConfTester(object):
     def __init__(self, files, service, indent=0):
@@ -58,7 +66,7 @@ class ConfTester(object):
 
 
 class StanzaTester(object):
-    def __init__(self, stanzas, conf_file, indent):
+    def __init__(self, stanzas, conf_file, indent=0):
         self._stanzas = stanzas
         self._conf_file = conf_file
         self._indent = indent
@@ -85,7 +93,7 @@ class StanzaTester(object):
 
 
 class KeyTester(object):
-    def __init__(self, keys, stanza_keys, indent):
+    def __init__(self, keys, stanza_keys, indent=0):
         self._keys = keys
         self._stanza_keys = stanza_keys
         self._indent = indent
@@ -110,6 +118,37 @@ class KeyTester(object):
                 TestLogger.info(f"Expected: {test_key_value}, Got: {key_value}", indent=self._indent+2)
             except AssertionError:
                 TestLogger.error(f"Expected: {test_key_value}, Got: {key_value}", indent=self._indent+2)
+                success = False
+
+        return success
+
+
+class CredsTester(object):
+    def __init__(self, creds, service, indent=0):
+        self._creds = creds
+        self._service = service
+        self._indent = indent
+
+    def run(self):
+        success = True
+
+        # test_cred_title needs to be in the form :realm:username:
+        for test_cred_title, test_cred_value in creds.items():
+            TestLogger.info(f"Cred: {test_cred_title}", indent=self._indent)
+
+            try:
+                found_cred_value = self._service.storage_passwords[test_cred_username]
+                TestLogger.info(f"Expected: present, Got: present", indent=self._indent+2)
+            except KeyError:
+                TestLogger.error(f"Expected: present, Got: absent", indent=self._indent+2)
+                success = False
+                continue
+
+            try:
+                assert found_cred_value == str(test_cred_value)
+                TestLogger.info(f"Expected: {test_cred_value}, Got: {found_cred_value}", indent=self._indent+2)
+            except AssertionError:
+                TestLogger.error(f"Expected: {test_cred_value}, Got: {found_cred_value}", indent=self._indent+2)
                 success = False
 
         return success

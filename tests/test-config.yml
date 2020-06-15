@@ -56,3 +56,6 @@ tests:
   - configs:
       dummyconf:
         state: absent
+
+  - creds:
+      "test_cred_realm:test_cred_username:": test_cred_value
