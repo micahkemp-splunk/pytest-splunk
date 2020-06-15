@@ -18,6 +18,7 @@ before_script:
   - mkdir -p $SPLUNK_DEFAULT_DIR
   - cp $GITLAB_DEFAULT_FILE $SPLUNK_DEFAULT_FILE
   - "/sbin/entrypoint.sh start-and-exit"
+  - curl -u admin:$SPLUNK_PASSWORD -k -d realm=test_cred_realm -d name=test_cred_username -d password=test_cred_value https://localhost:8089/services/storage/passwords
 
 test:
   stage: test
