@@ -1,5 +1,6 @@
 import splunklib.client as client
 from colorama import Fore, Style
+import yaml
 import pytest
 
 
