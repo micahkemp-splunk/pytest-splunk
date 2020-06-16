@@ -12,6 +12,9 @@ class SplunkTester(object):
 
     def _context_service(self, app=None, user=None, **connect_args):
         if app or user:
+            TestLogger.info(f"User: {user}")
+            TestLogger.info(f"App: {app}")
+
             return client.connect(app=app, owner=user, **connect_args)
 
         return self._service
@@ -52,17 +55,11 @@ class SplunkTester(object):
                     assert tester.test_creds(fail_test["creds"], user=user, app=app)
 
     def test_configs(self, files, app=None, user=None):
-        TestLogger.info(f"User: {user}", indent=self._indent)
-        TestLogger.info(f"App: {app}", indent=self._indent)
-
         test_service = self._context_service(app=app, user=user, **self._connect_args)
 
         return ConfTester(files=files, service=test_service, indent=self._indent+2).run()
 
     def test_creds(self, creds, app=None, user=None):
-        TestLogger.info(f"User: {user}", indent=self._indent)
-        TestLogger.info(f"App: {app}", indent=self._indent)
-
         test_service = self._context_service(app=app, user=user, **self._connect_args)
 
         return CredsTester(creds=creds, service=test_service, indent=self._indent+2).run()
