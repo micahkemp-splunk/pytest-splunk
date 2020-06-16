@@ -59,3 +59,8 @@ tests:
 
   - creds:
       "test_cred_realm:test_cred_username:": test_cred_value
+
+fail_tests:
+  - configs:
+      dummyconf:
+        state: present
