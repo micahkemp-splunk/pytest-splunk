@@ -34,8 +34,8 @@ def test_something():
 
         if "configs" in fail_test:
             with pytest.raises(AssertionError):
-                assert tester.test_configs(test["configs"], user=user, app=app)
+                assert tester.test_configs(fail_test["configs"], user=user, app=app)
 
         if "creds" in fail_test:
             with pytest.raises(AssertionError):
-                assert tester.test_creds(test["creds"], user=user, app=app)
+                assert tester.test_creds(fail_test["creds"], user=user, app=app)
