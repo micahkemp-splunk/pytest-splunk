@@ -1,5 +1,6 @@
 import splunktester
 import yaml
+import pytest
 
 # TODO - is this path ok being relative from the project top level?
 with open('tests//test-config.yml', 'r') as config_file:
@@ -17,7 +18,7 @@ def test_something():
         password=splunk_password,
     )
 
-    for test in test_config["tests"]:
+    for test in test_config.get("tests", []):
         user = test.get("user", None)
         app = test.get("app", None)
 
@@ -26,3 +27,15 @@ def test_something():
 
         if "creds" in test:
             assert tester.test_creds(test["creds"], user=user, app=app)
+
+    for fail_test in test_config.get("fail_tests", []):
+        user = test.get("user", None)
+        app = test.get("app", None)
+
+        if "configs" in fail_test:
+            with pytest.raises(AssertionError):
+                assert tester.test_configs(test["configs"], user=user, app=app)
+
+        if "creds" in fail_test:
+            with pytest.raises(AssertionError):
+                assert tester.test_creds(test["creds"], user=user, app=app)
