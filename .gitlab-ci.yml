@@ -3,7 +3,6 @@ variables:
   SPLUNK_PASSWORD: test_cicd_splunk_password
   SPLUNK_DEFAULT_DIR: /tmp/defaults
   SPLUNK_DEFAULT_FILE: $SPLUNK_DEFAULT_DIR/default.yml
-  GITLAB_DEFAULT_FILE: .gitlab-ci-files/default.yml
 
 before_script:
   - sudo apt-get update
@@ -19,6 +18,8 @@ test-8.0.4.1:
   image:
     name: splunk/splunk:8.0.4.1-debian
     entrypoint: [""]
+  variables:
+    GITLAB_DEFAULT_FILE: .gitlab-ci-files/default-8.0.4.1.yml
   script:
     - python3 -m pytest
 
@@ -27,5 +28,7 @@ test-7.3.4.2:
   image:
     name: splunk/splunk:7.3.4.2-debian
     entrypoint: [""]
+  variables:
+    GITLAB_DEFAULT_FILE: .gitlab-ci-files/default-7.3.4.2.yml
   script:
     - python3 -m pytest

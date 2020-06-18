@@ -1,0 +1,27 @@
+splunk:
+  conf:
+    # custom app
+    - custom_test_file:
+        directory: /opt/splunk/etc/apps/custom_test_app/default
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_app_test_value
+
+    # try to override the custom app with the same name
+    - custom_test_file:
+        directory: /opt/splunk/etc/users/admin/custom_test_app/local
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_test_value
+
+    # the admin-user only app needs to exist globally, even if just empty, for it to be considered an app
+    - custom_test_file:
+        directory: /opt/splunk/etc/apps/custom_test_user_app/default
+        content: {}
+
+    # app only defined for the admin user
+    - custom_test_file:
+        directory: /opt/splunk/etc/users/admin/custom_test_user_app/local
+        content:
+          custom_test_stanza:
+            custom_test_key: custom_user_app_test_value
