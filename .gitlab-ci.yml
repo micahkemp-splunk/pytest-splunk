@@ -16,10 +16,16 @@ before_script:
 
 test-8.0.4.1:
   stage: test
-
   image:
     name: splunk/splunk:8.0.4.1-debian
     entrypoint: [""]
+  script:
+    - python3 -m pytest
 
+test-7.3.4.2:
+  stage: test
+  image:
+    name: splunk/splunk:7.3.4.2-debian
+    entrypoint: [""]
   script:
     - python3 -m pytest
