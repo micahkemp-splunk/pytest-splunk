@@ -1,12 +1,6 @@
-image:
-  name: splunk/splunk:8.0.4.1-debian
-  entrypoint: [""]
-
 variables:
   SPLUNK_START_ARGS: --accept-license
   SPLUNK_PASSWORD: test_cicd_splunk_password
-  SPLUNK_HOME: /opt/splunk
-  SPLUNK_USER: splunk
   SPLUNK_DEFAULT_DIR: /tmp/defaults
   SPLUNK_DEFAULT_FILE: $SPLUNK_DEFAULT_DIR/default.yml
   GITLAB_DEFAULT_FILE: .gitlab-ci-files/default.yml
@@ -20,7 +14,12 @@ before_script:
   - "/sbin/entrypoint.sh start-and-exit"
   - curl -u admin:$SPLUNK_PASSWORD -k -d realm=test_cred_realm -d name=test_cred_username -d password=test_cred_value https://localhost:8089/services/storage/passwords
 
-test:
+test-8.0.4.1:
   stage: test
+
+  image:
+    name: splunk/splunk:8.0.4.1-debian
+    entrypoint: [""]
+
   script:
     - python3 -m pytest
